@@ -15,9 +15,10 @@ import { CardsService } from 'src/cards/cards.service';
 
 @Module({
   imports: [
+    forwardRef(() => CommentsModule),
     forwardRef(() => CardsModule),
     TypeOrmModule.forFeature([Columns]),    
-    UsersModule
+    UsersModule,
   ],
   controllers: [ColumnsController],
   providers: [ColumnsService],

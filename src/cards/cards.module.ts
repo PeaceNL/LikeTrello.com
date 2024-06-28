@@ -9,6 +9,7 @@ import { ColumnsModule } from 'src/columns/columns.module';
 @Module({
   imports: [
     forwardRef(() => ColumnsModule),   
+    forwardRef(() => CommentsModule),
     TypeOrmModule.forFeature([Card]),
   ],
   controllers: [CardsController],

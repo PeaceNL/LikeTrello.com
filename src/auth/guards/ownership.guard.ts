@@ -11,7 +11,7 @@ export class OwnershipGuard implements CanActivate {
   constructor(
     private readonly columnsService: ColumnsService,
     private readonly cardsService: CardsService,
-    // private readonly commentsService: CommentsService,
+    private readonly commentsService: CommentsService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -54,16 +54,14 @@ export class OwnershipGuard implements CanActivate {
       throw new ForbiddenException('Card not found');
     }
     console.log(card);
-    
-    
     await this.checkColumnOwnership(card.column.id, userId);
   }
 
   private async checkCommentOwnership(commentId: number, userId: number) {
-    // const comment = await this.commentsService.findOneById(commentId);
-    // if (!comment) {
-    //   throw new ForbiddenException('Comment not found');
-    // }
-    // await this.checkCardOwnership(comment.cardId, userId);
+    const comment = await this.commentsService.findOneById(commentId);
+    if (!comment) {
+      throw new ForbiddenException('Comment not found');
+    }
+    await this.checkCardOwnership(comment.card.id, userId);
   }
 }
