@@ -1,12 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Columns } from './entities/entities.column';
 import { UsersService } from 'src/users/users.service';
 import { CreateColumnDTO } from './dto/create-column.dto';
 import { User } from 'src/users/entities/entities.user';
-import { NotFoundError } from 'rxjs';
-import { Card } from 'src/cards/entities/entities.card';
+
 
 
 

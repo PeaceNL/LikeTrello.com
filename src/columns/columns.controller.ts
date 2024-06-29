@@ -2,7 +2,6 @@ import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/c
 import { ColumnsService } from './columns.service';
 import { CreateColumnDTO } from './dto/create-column.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { FromOwner } from 'src/auth/guards/fromOwner.guard';
 import { OwnershipGuard } from 'src/auth/guards/ownership.guard';
 
 @Controller('users/:userId/columns/')
@@ -17,7 +16,7 @@ export class ColumnsController {
         return this.columnsService.getUsersColumns(userId);
     }
 
-    
+    @UseGuards(JwtAuthGuard, OwnershipGuard)
     @Post()
     addColumnToUser(
         @Param('userId') userId: number,

@@ -3,7 +3,7 @@ import { UsersService } from './users.service';
 import { User } from './entities/entities.user';
 import { CreateUserDto } from './dto/create-user.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { AuthGuard } from '@nestjs/passport';
+
 
 @Controller('users')
 export class UsersController {
@@ -16,7 +16,7 @@ export class UsersController {
         return 'Hello Users'
     }
 
-    
+    @UseGuards(JwtAuthGuard)
     @Get(':id')
     @HttpCode(HttpStatus.OK)
     getUserById(@Param('id') id: number): Promise<User | string> {

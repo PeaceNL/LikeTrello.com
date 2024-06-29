@@ -2,10 +2,9 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Comment } from './entities/entities.comment';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateCardDTO } from 'src/cards/dto/create-card/create-card';
 import { CreateCommentDTO } from './dto/create-comment';
 import { CardsService } from 'src/cards/cards.service';
-import { NotFoundError } from 'rxjs';
+
 
 @Injectable()
 export class CommentsService {

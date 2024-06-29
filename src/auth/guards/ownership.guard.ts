@@ -1,7 +1,4 @@
 import { CanActivate, ExecutionContext, Injectable, ForbiddenException } from "@nestjs/common";
-import { Reflector } from "@nestjs/core";
-import { Observable } from "rxjs";
-import { UsersService } from "src/users/users.service";
 import { ColumnsService } from "src/columns/columns.service";
 import { CardsService } from "src/cards/cards.service";
 import { CommentsService } from "src/comments/comments.service";
@@ -16,7 +13,7 @@ export class OwnershipGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const user = request.user; // JWT token user information
+    const user = request.user;
     // console.log(user)
     const { userId, columnId, cardId, commentId } = request.params;
     // console.log(userId, columnId, cardId, commentId)
@@ -54,7 +51,7 @@ export class OwnershipGuard implements CanActivate {
       throw new ForbiddenException('Card not found');
     }
     // console.log(card);
-    console.log(`сверка columnайди ${card.column.id} ${columnId}`);
+    console.log(`check columnIds ${card.column.id} ${columnId}`);
     if (card.column.id !== columnId) {
       throw new ForbiddenException('Column do not own this card');
     }
@@ -67,7 +64,7 @@ export class OwnershipGuard implements CanActivate {
     if (!comment) {
       throw new ForbiddenException('Comment not found');
     }
-    console.log(`сверка картайди ${comment.card.id} ${cardId}`);
+    console.log(`check cardIds ${comment.card.id} ${cardId}`);
     
     if (comment.card.id !== cardId) {
       throw new ForbiddenException('Card do not own this comment');

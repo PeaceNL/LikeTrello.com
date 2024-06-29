@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Post, UseGuards, Delete } from '@nestjs/c
 import { CardsService } from './cards.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { OwnershipGuard } from 'src/auth/guards/ownership.guard';
-import { CreateCardDTO } from './dto/create-card/create-card';
+import { CreateCardDTO } from './dto/create-card';
 
 @Controller('users/:userId/columns/:columnId/cards')
 export class CardsController {
@@ -19,7 +19,7 @@ export class CardsController {
     }
 
     @UseGuards(JwtAuthGuard, OwnershipGuard)
-    @Get('')
+    @Get()
     getCards(        
         @Param('columnId') columnId: number
     ) {

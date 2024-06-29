@@ -17,11 +17,5 @@ export class AuthController {
     @UsePipes(new ValidationPipe({ transform: true }))
     login(@Body() loginDto: LoginDto): Promise<any> {
         return this.authService.login(loginDto)
-    }
-
-    @UseGuards(JwtAuthGuard)
-    @Post('test')
-    test() {
-        return true
-    }
+    }    
 }

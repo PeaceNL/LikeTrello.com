@@ -1,9 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Card } from './entities/entities.card';
-import { CardsRepository } from './cards.repository/cards.repository';
 import { Repository } from 'typeorm';
-import { CreateCardDTO } from './dto/create-card/create-card';
+import { CreateCardDTO } from './dto/create-card';
 import { ColumnsService } from 'src/columns/columns.service';
 
 @Injectable()
