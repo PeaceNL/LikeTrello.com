@@ -26,15 +26,15 @@ export class OwnershipGuard implements CanActivate {
     }
 
     if (columnId) {
-      await this.checkColumnOwnership(columnId, user.userId);
+      await this.checkColumnOwnership(+columnId, user.userId);
     }
 
     if (cardId) {
-      await this.checkCardOwnership(cardId, user.userId);
+      await this.checkCardOwnership(+cardId, +columnId, user.userId);
     }
 
     if (commentId) {
-      await this.checkCommentOwnership(commentId, user.userId);
+      await this.checkCommentOwnership(+commentId, +cardId, +columnId, user.userId);
     }
 
     return true;
@@ -48,20 +48,31 @@ export class OwnershipGuard implements CanActivate {
     }
   }
 
-  private async checkCardOwnership(cardId: number, userId: number) {
+  private async checkCardOwnership(cardId: number, columnId: number, userId: number) {
     const card = await this.cardsService.findOneById(cardId);
     if (!card) {
       throw new ForbiddenException('Card not found');
     }
-    console.log(card);
+    // console.log(card);
+    console.log(`сверка columnайди ${card.column.id} ${columnId}`);
+    if (card.column.id !== columnId) {
+      throw new ForbiddenException('Column do not own this card');
+    }
     await this.checkColumnOwnership(card.column.id, userId);
+    
   }
 
-  private async checkCommentOwnership(commentId: number, userId: number) {
+  private async checkCommentOwnership(commentId: number, cardId: number, columnId: number, userId: number) {
     const comment = await this.commentsService.findOneById(commentId);
     if (!comment) {
       throw new ForbiddenException('Comment not found');
     }
-    await this.checkCardOwnership(comment.card.id, userId);
+    console.log(`сверка картайди ${comment.card.id} ${cardId}`);
+    
+    if (comment.card.id !== cardId) {
+      throw new ForbiddenException('Card do not own this comment');
+    }  
+    await this.checkCardOwnership(comment.card.id, columnId, userId);
+    
   }
 }
