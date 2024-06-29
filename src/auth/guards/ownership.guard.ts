@@ -11,16 +11,24 @@ export class OwnershipGuard implements CanActivate {
     private readonly commentsService: CommentsService,
   ) {}
 
+  
+
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const user = request.user;
-    // console.log(user)
+    const user = request.user; //from Jwt-auth
     const { userId, columnId, cardId, commentId } = request.params;
-    // console.log(userId, columnId, cardId, commentId)
-
+    
+    /**
+     * Функция берёт юзера из jwt токена и проверяет его с юзером из параметров.
+     * Так мы проверяем идёт ли запрос от залогиненого пользователя и относится ли он к сущности.
+     * Так же установил проверку связей между всеми сущностями
+     * comment <=> card <=> column <=> user на все случаи установлены обработчики ошибок
+     * Функция проверяет с конца (еслть ли коментарий) и так по цепочке приходит к сверке пользователя
+     */
     if (userId && +userId !== user.userId) {
       throw new ForbiddenException('You do not own this resource');
     }
+    
 
     if (columnId) {
       await this.checkColumnOwnership(+columnId, user.userId);
