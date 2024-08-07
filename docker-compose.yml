@@ -1,0 +1,28 @@
+version: '3'
+services:
+  nestjs:
+    build: .
+    container_name: nestserver    
+    ports:
+      - "3000:3000"
+    depends_on:
+      - pgsql
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=pgsql
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=postgres
+
+  pgsql:
+    image: postgres
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    container_name: pgsql
+    volumes:
+      - ./init-db:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"

@@ -46,7 +46,8 @@ export class CardsController {
     @ApiResponse({status:403, description: 'Forbidden'})
     addCard(
         @Param('columnId') columnId: number,
-        @Body() createcardDTO: CreateCardDTO) {
+        @Body() createcardDTO: CreateCardDTO
+    ) {
         return this.cardsService.addCard(columnId, createcardDTO)
     }
 
